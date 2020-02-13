@@ -1,0 +1,268 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Idea Bank</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/v-favicon.png' %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Start your project here-->
+  <!-- beginning of ideas list view -->
+  <!-- Section: Blog v.3 -->
+  {% block content %}
+
+    <section class="container my-5" style="padding-top:5px;">
+
+    <!-- Section heading -->
+    <h2 class="h1-responsive text-center my-5"><strong>Idea Bank</strong></h2>
+
+    <!-- Section description -->
+    <p class="text-center dark-grey-text w-responsive mx-auto mb-5">Welcome to the Vumbua Idea Bank. Feel free to
+    read through ideas that have been shared on this platform.</p>
+
+   <div class="container">
+   <div class="widget search">
+     <form action="{% url 'strathideasapp:Search' %}" class="form-inline active-cyan-4">
+       <input class="form-control form-control-sm mr-3 w-75"
+        type="text" name="q" placeholder="Idea Title/Problem Statement">
+       <button class="btn btn-primary btn-md" type="submit" class="submit">Search</button>
+     </form>
+<br><br>
+   </div>
+  </div>
+
+    <!-- Code for 1 single idea list item -->
+        {% for idea in ideas %}
+            {% if idea.is_public == True or idea.user == user %}
+            <div class="idea-list-item">
+              <!-- Grid row -->
+              <div class="row">
+                <!-- Grid column -->
+                <div class="col-lg-5 col-xl-4">
+
+                  <!-- Featured image -->
+                  <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                    <img style="height:400px; width: 500px;" class="img-fluid" src="{{idea.image.url}}" alt="Sample image">
+                    <a>
+                      <div class="mask rgba-white-slight"></div>
+                    </a>
+                  </div>
+
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-lg-7 col-xl-8">
+
+                  <!-- Post title -->
+                  <h3 class="mb-3">{{ idea.title }}</h3>
+                  <!-- Excerpt -->
+                  <p class="dark-grey-text text-justify"><strong>Problem Statement-></strong> {{ idea.problem_statement }}</p>
+                  <!-- Post data -->
+                  <p>by <a class="font-weight-bold">{{ idea.user.user|capfirst }}</a>, {{ idea.date_posted|date:"F d, Y" }}</p>
+                    <p> <a class="font-weight-bold"></a> {{ idea.comment_count}} Comments | {{ idea.view_count }} Views | {{ idea.likes.count }} Likes</p>
+                  <!-- Read more button -->
+                  <a class="btn btn-primary btn-md" href="{% url 'strathideasapp:idea_detail' idea.idea %}">Read more</a>
+
+                </div>
+                <!-- Grid column -->
+
+              </div>
+            </div>
+            <hr class="my-5">
+            {% endif %}
+        {% endfor %}
+    <!-- End of code for idea list item -->
+
+    <hr class="my-5">
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-primary mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+
+
+    </section>
+  {% endblock %}
+    <!-- Section: Blog v.3 -->
+  <!-- end of ideas list view -->
+
+<!-- src="{% static 'images/light.jpg'%}" -->
+</body>
+
+ <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+  <!-- js for changing the color of the nav bar when scrolled -->
+  <!-- end -->
+  <!-- js for changing the color of the links when page is scrolled -->
+
+  <script type="text/javascript">
+  $('.fas').click(function () {
+      $(this).parent().next('.replied-comments').fadeToggle()
+  });
+</script>
+  <!-- Footer -->
+  <footer class="page-footer font-small unique-color-dark pt-4" style="margin-top:50px">
+
+    <!-- Footer Links -->
+    <div class="container text-center text-md-left">
+
+      <!-- Footer links -->
+      <div class="row text-center text-md-left mt-3 pb-3">
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+          <h6 class="text-uppercase mb-4 font-weight-bold">Vumbua</h6>
+          <p>Vumbua offers a number of incubation programmes in the Bioeconomy (agro processing and pharmaceutical), Smart Industries (ICT and advanced manufacturing) and Green Economy (Water purification, waste management and renewable energy)</p>
+        </div>
+        <!-- Grid column -->
+
+        <hr class="w-100 clearfix d-md-none">
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Services</h6>
+            <p>
+              <a href="#">Incubation</a>
+            </p>
+            <p>
+              <a href="#">Idea Development</a>
+            </p>
+            <p>
+              <a href="#">Mentorship</a>
+            </p>
+        </div>
+
+        <hr class="w-100 clearfix d-md-none">
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+          <h6 class="text-uppercase mb-4 font-weight-bold">Links</h6>
+          <p>
+            <a href="{% url 'strathideasapp:home' %}">Home</a>
+          </p>
+          <p>
+            <a href="#">About Us</a>
+          </p>
+          <p>
+            <a href="#">Contact Us</a>
+          </p>
+          <p>
+            <a href="#">Help</a>
+          </p>
+        </div>
+
+        <!-- Grid column -->
+        <hr class="w-100 clearfix d-md-none">
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+          <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+          <p>
+            <i class="fas fa-home mr-3"></i>Ole Sangale Road, Madaraka, Nairobi</p>
+          <p>
+            <i class="fas fa-envelope mr-3"></i> info@vumbua.org</p>
+          <p>
+            <i class="fas fa-phone mr-3"></i> + 254 738585470</p>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Footer links -->
+
+      <hr>
+
+      <!-- Grid row -->
+      <div class="row d-flex align-items-center">
+
+        <!-- Grid column -->
+        <div class="col-md-7 col-lg-8">
+
+          <!--Copyright-->
+          <p class="text-center text-md-left">© 2019 Copyright:
+            <a href="https://mdbootstrap.com/education/bootstrap/">
+              <strong> www.SADACrenewed.com</strong>
+            </a>
+          </p>
+
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-5 col-lg-4 ml-lg-0">
+
+          <!-- Social buttons -->
+          <div class="text-center text-md-right">
+            <ul class="list-unstyled list-inline">
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fab fa-google-plus-g"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row -->
+
+    </div>
+    <!-- Footer Links -->
+
+  </footer>
+  <!-- End of footer section -->
+
+</html>

@@ -1,0 +1,179 @@
+{% extends 'strathideasapp/base.html' %}
+{% load static %}
+
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+{% block content %}
+  <header style="height: 15%;">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'strathideasapp:incubator_list' %}">
+          <strong><span>VUMBUA</span></strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+          aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'strathideasapp:incubator_list' %}">Home</a>
+                <span class="sr-only">(current)</span>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:category_list' %}">Idea Categories</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'profile' %}"><img  class="card-img-top" style="height: 30px;width : 40px;" src="{{ user.profile.image.url }}" alt="Card image cap"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- main content section -->
+  <section class="container my-5" style="padding-top:5px;">
+
+{#    <div class="search-bar">#}
+{#    <form class="form-inline active-cyan-4">#}
+{#      <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search">#}
+{#      <i class="fas fa-search" aria-hidden="true"></i>#}
+{#    </form>#}
+{#  </div>#}
+
+    <!-- categories and search bar code -->
+    <!-- <select class="mdb-select md-form" searchable="Search here..">
+      <option value="" disabled selected>Choose your country</option>
+      <option value="1">USA</option>
+      <option value="2">Germany</option>
+      <option value="3">France</option>
+      <option value="3">Poland</option>
+      <option value="3">Japan</option>
+    </select>
+    <label class="mdb-main-label">Label example</label> -->
+    <!-- end of categories and search bar code -->
+
+    <h2 class="h1-responsive text-center my-5"><strong>Welcome, {{request.user|capfirst}} <hr> </strong></h2>
+
+    <div class="container">
+   <div class="widget search">
+     <form action="{% url 'strathideasapp:Search' %}" class="form-inline active-cyan-4">
+       <input class="form-control form-control-sm mr-3 w-75"
+        type="text" name="q" placeholder="Search for an Idea">
+       <button class="btn btn-primary btn-md" type="submit" class="submit">Search</button>
+     </form>
+<br><br>
+   <!-- <form action="{% url 'strathideasapp:Search' %}" class="search-form">
+       <div class="form-group">
+       <input type="text" name="q" placeholder="Idea Title/Problem Statement">
+       <button type="submit" class="submit">Search</button>
+       </div>
+   </form> -->
+   </div>
+  </div>
+
+
+
+    <!-- description -->
+<!--     <p class="text-center dark-grey-text w-responsive mx-auto mb-5">The following ideas are ready for incubation. Feel free to have a look at them:</p>
+ -->    <!-- end of description -->
+
+    <!-- cards section -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row" id="allCards">
+
+          <!-- js for handling the cards -->
+          <script type="text/javascript">
+            $(document).ready(function() {
+              var divs = $('card');
+              for (var i = 0; i < divs.length; i+=4) {
+                  divs.slice(i, i + $).wrapAll('<div class="row"></div>')
+                }
+            });
+          </script>
+          <!-- end of cards js -->
+
+          <!-- cards code -->
+          <div class="row">
+            <!-- Card -->
+               {% for idea in ideas %}
+
+      <div class="col-md-6" style="padding-bottom: 40px">
+
+        <div class="card" style="margin-bottom: 10%;">
+
+          <!-- Card image -->
+          <img class="card-img-top" style="height:400px;"src="{{idea.image.url}}" alt="Card image cap">
+
+          <!-- Card content -->
+          <div class="card-body">
+
+            <!-- Title -->
+            <h4 class="card-title" style=" width: 500px;"><a>{{ idea.title|slice:"33" }}</a></h4>
+            <!-- Text -->
+            <p class="card-text">{{ idea.problem_statement|slice:":255" }}</p>
+            <!-- Button -->
+            <a href="{% url 'strathideasapp:incubator_detail' idea.idea %}" class="btn btn-primary">Read More</a>
+
+            <a class="badge badge-secondary" href="{% url 'strathideasapp:idea_category' idea.category.pk %}">#{{ idea.category }}</a>
+
+          </div>
+
+           <!-- Card footer -->
+          <div class="rounded-bottom mdb-color lighten-3 text-center pt-3">
+            <ul class="list-unstyled list-inline font-small">
+              <li class="list-inline-item pr-2 white-text"><i class="far fa-user pr-1"></i>{{ idea.user.user}}</li>
+              <li class="list-inline-item pr-2 white-text"><i class="far fa-thumbs-up pr-1"></i>{{ idea.likes.count}}</li>
+              <li class="list-inline-item pr-2 white-text"><i class="far fa-eye pr-1"></i>{{ idea.view_count }}</li>
+              <li class="list-inline-item pr-2 white-text"><i class="far fa-comments pr-1"></i>{{ idea.comment_count }}</li>
+              <li class="list-inline-item pr-2 white-text"><i class="far fa-calendar pr-1"></i>{{ idea.date_posted|date:"F d, Y" }}</li>
+            </ul>
+          </div>
+
+        </div>
+
+
+      </div>
+
+      <!-- End of Card -->
+
+               {%endfor%}
+          </div>
+          <!-- end of cards code -->
+
+        </div>
+      </div>
+    </div>
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-primary mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+
+
+    <!-- end of cards section -->
+  </section>
+{% endblock %}
+  <!-- end of main section -->

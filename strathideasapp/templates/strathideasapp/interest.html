@@ -1,0 +1,65 @@
+{% extends 'strathideasapp/base.html' %}
+{% load static %}
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+{% block content %}
+  <header style="height: 15%;">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'strathideasapp:home' %}">
+          <strong><span>VUMBUA</span></strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+          aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:home' %}">Home
+                </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'strathideasapp:idea_list' %}">Ideas</a>
+                <span class="sr-only">(current)</span>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:idea_create' %}">Create Idea</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!--End of Navbar -->
+
+  <!-- beginning of ideas list view -->
+  <!-- Section: Blog v.3 -->
+    <section class="container my-5" style="padding-top:5px;">
+      <!-- Search form -->
+<!-- <form class="form-inline active-cyan-4">
+  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"
+    aria-label="Search">
+  <i class="fas fa-search" aria-hidden="true"></i>
+</form> -->
+
+    <!-- Section heading -->
+    <h2 class="h1-responsive text-center my-5"><strong>Idea Bank</strong></h2>
+
+    <!-- Section description -->
+    <p class="text-center dark-grey-text w-responsive mx-auto mb-5"><h2>Your Offer has been sent</h2></p>
+    <hr>
+
+
+
+    </section>
+    <!-- Section: Blog v.3 -->
+  <!-- end of ideas list view -->
+{% endblock %}

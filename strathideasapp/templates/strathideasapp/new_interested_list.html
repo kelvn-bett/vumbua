@@ -1,0 +1,117 @@
+{% extends 'strathideasapp/base.html' %}
+{% load static %}
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+{% block content %}
+  <header style="height: 15%;">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <strong><span>VUMBUA</span></strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+          aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:home' %}">Home
+                </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'strathideasapp:idea_list' %}">Ideas</a>
+                <span class="sr-only">(current)</span>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:idea_create' %}">Create Idea</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!--End of Navbar -->
+
+  <!-- beginning of ideas list view -->
+  <!-- Section: Blog v.3 -->
+    <section class="container my-5" style="padding-top:5px;">
+      <!-- Search form -->
+<!-- <form class="form-inline active-cyan-4">
+  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"
+    aria-label="Search">
+  <i class="fas fa-search" aria-hidden="true"></i>
+</form> -->
+
+    <!-- Section heading -->
+    <h2 class="h1-responsive text-center my-5"><strong>Interested Incubators for This Idea </strong></h2>
+
+
+    <!-- Section description -->
+    <p class="text-center dark-grey-text w-responsive mx-auto mb-5">Find the interested Incubators below. You can Negotiate by clicking on the offer link</p>
+
+
+    <hr>
+    <!-- Code for 1 single idea list item -->
+        {% for interest in interests %}
+            <div class="idea-list-item">
+              <!-- Grid row -->
+              <div class="row">
+                <!-- Grid column -->
+                    <img style="max-height: 150px; max-width: 250px;" src="{{ interest.user.profile.image.url }}">
+
+                <div class="col-lg-7 col-xl-8">
+
+                  <!-- Post title -->
+                  <h3 class="mb-3">Interested Incubator :<b> {{ interest.user }}</b></h3>
+                  <a href="#"><h3 class="mb-3">Offer : <b> {{ interest.title }} </b></h3></a>
+                  <h3 class="mb-3">Date of Offer :<b> {{interest.timestamp |date:"F d, Y"}}</b></h3>
+                  <!-- Excerpt -->
+                  <p class="dark-grey-text text-justify">{{ interest.body }}</p>
+
+                </div>
+                <!-- Grid column -->
+
+              </div>
+            </div>
+            <hr class="my-5">
+            {% empty %}
+                <h2>No Incubator has shown interest yet</h2>
+        {% endfor %}
+    <!-- End of code for idea list item -->
+
+    <hr class="my-5">
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-primary mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+
+
+    </section>
+{% endblock %}
+    <!-- Section: Blog v.3 -->
+  <!-- end of ideas list view -->

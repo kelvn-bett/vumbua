@@ -1,0 +1,280 @@
+{% extends 'strathideasapp/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+      <!-- Main navigation -->
+  <header style="height: 15%;">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" {%if request.user.profile.role_id == 4 %} href="{% url 'strathideasapp:home' %}" {% elif request.user.profile.role_id == 2 %} href="{% url 'strathideasapp:allideas' %}" {% endif %}>
+          <strong><span>VUMBUA</span></strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+          aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" {%if request.user.profile.role_id == 4 %} href="{% url 'strathideasapp:home' %}" {% elif request.user.profile.role_id == 2 %} href="{% url 'strathideasapp:allideas' %}" {% endif %}>Home
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" {%if request.user.profile.role_id == 4 %} href="{% url 'strathideasapp:idea_list' %}" {% elif request.user.profile.role_id == 2 %} href="{% url 'strathideasapp:comm_home' %}" {% endif %} >Ideas</a>
+                <span class="sr-only">(current)</span>
+              </li>
+              {%if request.user.profile.role_id == 4 %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:idea_create' %}">Create Idea</a>
+              </li>
+              {% endif %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'profile' %}"><img  class="card-img-top" style="height: 30px;width : 40px;" src="{{ user.profile.image.url }}" alt="Card image cap"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!--End of Navbar -->
+      <main class="mt-5 pt-5">
+    <div class="container">
+      <section class="mt-4">
+        <div class="row">
+          <div class="col-md-8 mb-4">
+            <!-- image attached to idea -->
+            <div class="card mb-4 wow fadeIn">
+              <img style="height: 400px; width: 900px;" src="{{idea.image.url}}" class="img-fluid" alt="Sample Image">
+            </div>
+            <!-- end of image -->
+
+            <!-- idea content information -->
+            <div class="card mb-4 wow fadeIn">
+              <!-- card content -->
+              <div class="card-body">
+                <h2 class="article-title my-4">{{ idea.title }}</h2>
+                  {% if idea.user == user %}
+                      <div class="content-section">
+                        <a class="btn btn-primary btn-sm mt-1 mb-1" href="{% url 'strathideasapp:idea_update' idea.idea %}">Update</a>
+
+                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'strathideasapp:idea_delete' idea.idea %}">Delete</a>
+                     </div>
+                    {% endif %}
+                <h4 class="my-4">Problem Statement</h4>
+                <p class="article-content">{{idea.problem_statement}}</p>
+                <h4 class="my-4">Executive Summary</h4>
+                <p class="article-content">{{idea.executive_summary}}</p>
+                <h4 class="my-4">Objectives</h4>
+                <p class="article-content">{{idea.objectives}}</p>
+                <h4 class="my-4">Limitations</h4>
+                <p class="my-4">{{idea.limitations}}</p>
+{#                  <h2>{{ idea.dislikes.count }}</h2>#}
+
+                <!-- like & dislike buttons -->
+                <p class="h5 my-4">Did you like what you read?</p>
+                <a class="btn-floating btn-primary"></a>
+                      <a href="{{ idea.get_like_url }}"><img src="{% static 'img/svg/thumbs-up.svg' %}" alt=""></a>
+{#                      <a href="{{ idea.get_like_url }}"><img src="{% static 'img/svg/thumbs-down.svg' %}" alt=""></a>#}
+                  <p> <a class="font-weight-bold"></a>Likes: {{ idea.likes.count }}</p>
+
+
+                {%if request.user.profile.role_id == 2%}
+
+                <div class="btn-group">
+                      <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Vote
+                      </button>
+                      <div class="dropdown-menu">
+                              <a class="dropdown-item" href="{% url 'strathideasapp:approve' idea.idea %}">Approve</a>
+                              <!-- <a class="dropdown-item" href="#">Pending</a> -->
+                              <a data-target="#exampleModalCenter{{ idea.idea }}" data-toggle="modal" class="dropdown-item" >Decline</a>
+{#                                    href="{% url 'strathideasapp:decline' idea.idea %}" #}
+                      </div>
+                    </div>
+                         <!-- Modal-->
+              <div class="modal fade" id="exampleModalCenter{{ idea.idea }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLongTitle">Warning</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                           Are you sure you want to decline the idea "<strong>{{idea.title}}</strong>" ?
+                          </div>
+                          <div class="modal-footer">
+                              <a href="{% url 'strathideasapp:decline' idea.idea %}" class="btn btn-danger btn-sm">Yes</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+                {% endif %}
+
+
+{#                <span><span><a type="button" class="btn-floating btn-large"><i class="fas fa-thumbs-up"></i></a></span></span>#}
+{#                <span><span><a type="button" class="btn-floating btn-large"><i class="fas fa-thumbs-down"></i></a></span></span>#}
+                <!-- end of like buttons -->
+              </div>
+              <!-- end of card content -->
+            </div>
+
+            <!-- Author box card section -->
+            <div class="card mb-4 wow fadeIn">
+
+              <div class="card-header text-white">
+                <span>About author</span>
+              </div>
+
+              <!--Card content-->
+<div class="card-body">
+
+                <div class="media d-block d-md-flex mt-3">
+                  <img class="d-flex mb-3 mx-auto z-depth-1" src="{{ idea.user.image.url }}"
+                    alt="Generic placeholder image" style="width: 100px;">
+                  <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                      <a class="nav-link" href="{% url 'profile' %}"><h4>{{ idea.user.user|capfirst }}</h4></a>
+                      <h5 class="article-content"><b>{{idea.user.bio}}</b></h5>
+                    <ul class="list-unstyled list-inline mb-2 pt-1">
+                      <p>Share This Idea on: </p>
+                      <li class="list-inline-item">
+                        <a class="grey-text mr-1" href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}&title={{share_string}}"><i class="fab fa-lg fa-facebook"> </i></a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a class="grey-text mr-1" href="https://twitter.com/home?status={{share_string}}%20{{request.build_absolute_uri}}"><i class="fab fa-lg fa-twitter"> </i></a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a class="grey-text mr-1" href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title={{idea.title}}&summary={{share_string}}&source={{request.build_absolute_uri}}"><i class="fab fa-lg fa-linkedin"> </i></a>
+                      </li>
+                    </ul>
+
+                      {% if request.user.profile.role_id == 2 or idea.user == user.profile %}
+                      <a href = "{% url 'strathideasapp:forum' idea.idea %}"><button class="btn btn-outline-info">Discussion Forum</button></a>
+                      <!-- <a href = "{% url 'strathideasapp:forum' idea.idea %}">Discussion Forum </a> -->
+
+                      {% endif %}
+
+                      {% if idea.user == user.profile %}
+                      <a href = "{% url 'strathideasapp:interested' idea.idea %}"><button class="btn btn-secondary">Interested Incubators</button></a>
+                      <!-- <a href = "{% url 'strathideasapp:forum' idea.idea %}">Discussion Forum </a> -->
+                      {% endif %}
+
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <!-- End of author box section -->
+
+                        <!-- Reply section -->
+            <div class="card mb-4 wow fadeIn">
+              <section>
+
+                <!-- Leave a reply -->
+                <div class="card-header text-white">Leave a reply</div>
+
+                <!-- Default form reply -->
+                <form class="px-1 mt-4" action="" method="post" novalidate>
+                    {% csrf_token%}
+
+                  <!-- Comment -->
+                  <div class=" md-textarea" style="padding-left: 20px; padding-right: 20px;">
+                      {{ form|crispy }}
+                  </div>
+                  <div class="text-center mt-4">
+                    <button class="btn btn-default btn-rounded btn-md" type="submit" style="background-color: #4285f4 !important; margin-bottom: 20px;">Comment</button>
+                  </div>
+
+                </form>
+                <!-- Default form reply -->
+
+              </section>
+              <!-- Reply section -->
+            </div>
+            <!-- End of reply section -->
+
+            <!-- Comment section -->
+            <!--Section: Comments-->
+            <section class="my-5">
+
+              <div class="card mb-4 wow fadeIn">
+              <!-- Card header -->
+              <div class="card-header text-white">{{idea.comment_count}} comments</div>
+                  {% for comment in idea.get_comments %}
+              <div class="media d-block d-md-flex mt-4" style="padding-left: 20px; padding-right: 20px;">
+                <img class="card-img-64 d-flex mx-auto mb-3" src="{{ comment.user.profile.image.url }}"
+                  alt="Generic placeholder image">
+                <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                  <p>
+                    <a href="">{{ comment.user|capfirst }}</a>
+
+                  </p>
+
+                  <p>{{ comment.body|linebreaks }}</p>
+                    <a  class="pull-right">
+                        <i class="fas fa-reply"> Reply</i>
+                    </a>
+                <div class="replied-comments" style="display: none;">
+                    {% for reply in comment.replies.all %}
+
+
+                  <div class="media d-block d-md-flex mt-4">
+
+                    <img class="card-img-64 d-flex mx-auto mb-3" src="{{reply.user.profile.image.url}}"
+                      alt="Generic placeholder image">
+                    <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                      <p class="mt-0">
+                        <a href="">{{ reply.user }}</a>
+                      </p>
+                      {{ reply.body | linebreaks }}
+                    </div>
+                  </div>
+                    {% endfor %}
+                  <!-- Quick Reply -->
+                    <div class="form-group mt-4">
+                      <form class="px-1 mt-4" action="" method="post" novalidate>
+                    {% csrf_token%}
+                          <input type="hidden" name="comment_id" value="{{ comment.comment }}">
+                  <!-- Comment -->
+                  <div class=" md-textarea" style="padding-left: 20px; padding-right: 20px;">
+                      {{ form|crispy }}
+                  </div>
+
+                    <div class="text-center my-4">
+                      <button class="btn btn-primary btn-sm" type="submit">Reply</button>
+                    </div>
+                </form>
+
+                </div>
+
+                </div>
+              </div>
+                      </div>
+
+                      {% empty %}
+                      <p>Be the first to leave a comment</p>
+                  {% endfor %}
+
+              <!--Pagination -->
+              <hr class="my-5">
+
+            </div>
+            </section>
+            <!--Section: Comments-->
+            <!-- End of comment section -->
+
+
+
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+{% endblock %}

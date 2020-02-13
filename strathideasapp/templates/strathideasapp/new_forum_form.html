@@ -1,0 +1,122 @@
+{% extends 'strathideasapp/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+{% block content %}
+  <header style="height: 15%;">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'strathideasapp:allideas' %}">
+          <strong><span>VUMBUA</span></strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+          aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:allideas' %}">Home
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:comm_home' %}">Ideas</a>
+                <span class="sr-only">(current)</span>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'profile' %}"><img  class="card-img-top" style="height: 30px;width : 40px;" src="{{ user.profile.image.url }}" alt="Card image cap"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!--End of Navbar -->
+
+  <!-- Main section -->
+  <div class="view jarallax" data-jarallax='{"speed": 0.2}' >
+    <!-- Mask & flexbox options-->
+    <div class="d-flex justify-content-center align-items-center">
+      <!-- Content -->
+      <div class="container-fluid"> <!-- added some extra things that should make it abit better --> <!-- old: container || new: container-fluid -->
+        <!--Grid row-->
+        <div class="row justify-content-around"> <!-- added some extra things that should make it abit better --> <!-- old: row || new: row justify-content-around -->
+          <!--Grid column-->
+          <div class="col-md-8 mt-5"> <!-- added some extra things that should make it abit better --> <!-- old: col-md-12 || new: col-md-8 mt-5 --> <!-- mt-5 = margin-top: 5em; -->
+            <div class="idea-form my-5"> <!-- added some extra things that should make it abit better --> <!-- old: idea-form || new: idea-form my-5 --> <!-- my-5 = margin-top: 5em; margin-bottom: 5em; -->
+              <!-- Material form register -->
+              <div class="card">
+
+                  <h5 class="card-header text-center text-white py-4" style="padding-bottom: 20px;">
+                      <strong>Create Forum</strong>
+                  </h5>
+
+                  <!--Card content-->
+                  <div class="card-body px-lg-5 pt-0" style="height:100%">
+
+                      <!-- Form -->
+                      <form class="text-center" style="color: #757575;" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                          {{ form|crispy }}
+
+                          <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit" >Create Forum</button>
+                      </form>
+                      <!-- Form -->
+
+                  </div>
+
+              </div>
+              <!-- Material form register -->
+            </div>
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+      <!-- Content -->
+    </div>
+    <!-- Mask & flexbox options-->
+  </div>
+
+  <!-- Confirm submission modal -->
+  <!-- Central Modal Medium Info -->
+    <div class="modal fade" id="confSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-notify modal-info" role="document">
+        <!--Content-->
+        <div class="modal-content">
+          <!--Header-->
+          <div class="modal-header">
+            <p class="heading lead">Confirm Submission</p>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" class="white-text">&times;</span>
+            </button>
+          </div>
+
+{#          <!--Body-->#}
+{#          <div class="modal-body">#}
+{#            <div class="text-center">#}
+{#              <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>#}
+{#              <p>Are you sure you would like to confirm the changes made to the submission form?</p>#}
+{#            </div>#}
+{#          </div>#}
+
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <a type="button" class="btn btn-primary">Confirm Submission</a>
+            <a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">No, thanks</a>
+          </div>
+        </div>
+        <!--/.Content-->
+    </div>
+    </div>
+<!-- Central Modal Medium Info-->
+  <!-- End of confirm submission modal -->
+
+  <!-- End of main section -->
+{% endblock %}

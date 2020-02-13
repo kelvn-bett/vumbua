@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Vumbua</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/v-favicon.png' %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <!-- this has been moved from styles.css because it only affects this page other pages should have height:auto not limited to 100% -->
+  <style type="text/css">
+    html,
+    body,
+    header,
+    .jarallax {
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+<header>
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <strong><span>VUMBUA</span></strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+        aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+          <ul class="navbar-nav ml-auto">
+              {% if user.is_authenticated %}
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'strathideasapp:home' %}">Home
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:idea_list' %}">Ideas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:idea_create' %}">Create Idea</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'profile' %}"><img  class="card-img-top" style="height: 30px;width : 40px;" src="{{ user.profile.image.url }}" alt="Card image cap"></a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+              {% endif %}
+          </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Navbar -->
+  <!-- Full Page Intro -->
+  <div class="view jarallax" data-jarallax='{"speed": 0.2}' style="background-image: url(../../static/img/bg_4.jpg); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+    <!-- Mask & flexbox options-->
+    <div class="mask rgba-white-light d-flex justify-content-center align-items-center">
+      <!-- Content -->
+      <div class="container">
+        <!--Grid row-->
+        <div class="row">
+          <!--Grid column-->
+          <div class="col-md-12 white-text text-center">
+            <h1 class="display-3 mb-0 pt-md-5 pt-5 white-text font-weight-bold wow fadeInDown" data-wow-delay="0.3s" style="color:#4285f4";>
+              <a class="font-weight-bold" style="color:#4285f4">WELCOME TO VUMBUA</a>
+            </h1>
+            <h5 style="color:#4285f4"; class="text-uppercase pt-md-5 pt-sm-2 pt-5 pb-md-5 pb-sm-3 pb-5 white-text font-weight-bold wow fadeInDown"
+              data-wow-delay="0.3s">Welcome</h5>
+              {% if user.is_authenticated %}
+
+              {% else %}
+            <div class="wow fadeInDown" data-wow-delay="0.3s">
+              <a class="btn btn-light-blue btn-lg" href="{% url 'register' %}">sign up</a>
+              <a class="btn btn-indigo btn-lg"  href="{% url 'login' %}">login</a>
+              {% endif %}
+
+            </div>
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+      <!-- Content -->
+    </div>
+    <!-- Mask & flexbox options-->
+  </div>
+  <!-- Full Page Intro -->
+</header>
+
+<!-- end of main section -->
+
+<!-- Footer -->
+<footer class="page-footer font-small unique-color-dark pt-4">
+
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left">
+
+    <!-- Footer links -->
+    <div class="row text-center text-md-left mt-3 pb-3">
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+        <h6 class="text-uppercase mb-4 font-weight-bold">Vumbua</h6>
+        <p>Vumbua offers a number of incubation programmes in the Bioeconomy (agro processing and pharmaceutical), Smart Industries (ICT and advanced manufacturing) and Green Economy (Water purification, waste management and renewable energy)</p>
+      </div>
+      <!-- Grid column -->
+
+      <hr class="w-100 clearfix d-md-none">
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+          <h6 class="text-uppercase mb-4 font-weight-bold">Services</h6>
+          <p>
+            <a href="#">Incubation</a>
+          </p>
+          <p>
+            <a href="#">Idea Development</a>
+          </p>
+          <p>
+            <a href="#">Mentorship</a>
+          </p>
+      </div>
+
+      <hr class="w-100 clearfix d-md-none">
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+        <h6 class="text-uppercase mb-4 font-weight-bold">Links</h6>
+        <p>
+          <a href="{% url 'strathideasapp:home' %}">Home</a>
+        </p>
+        <p>
+          <a href="#">About Us</a>
+        </p>
+        <p>
+          <a href="#">Contact Us</a>
+        </p>
+        <p>
+          <a href="#">Help</a>
+        </p>
+      </div>
+
+      <!-- Grid column -->
+      <hr class="w-100 clearfix d-md-none">
+
+      <!-- Grid column -->
+      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+        <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+        <p>
+          <i class="fas fa-home mr-3"></i>Ole Sangale Road, Madaraka, Nairobi</p>
+        <p>
+          <i class="fas fa-envelope mr-3"></i> info@vumbua.com</p>
+        <p>
+          <i class="fas fa-phone mr-3"></i> + 254738585470</p>
+
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Footer links -->
+
+    <hr>
+
+    <!-- Grid row -->
+    <div class="row d-flex align-items-center">
+
+      <!-- Grid column -->
+      <div class="col-md-7 col-lg-8">
+
+        <!--Copyright-->
+        <p class="text-center text-md-left">© 2020 Copyright:
+          <a href="https://mdbootstrap.com/education/bootstrap/">
+            <strong> www.vumbua.org</strong>
+          </a>
+        </p>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-5 col-lg-4 ml-lg-0">
+
+        <!-- Social buttons -->
+        <div class="text-center text-md-right">
+          <ul class="list-unstyled list-inline">
+            <li class="list-inline-item">
+              <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                <i class="fab fa-google-plus-g"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row -->
+
+  </div>
+  <!-- Footer Links -->
+
+</footer>
+<!-- Footer -->
+
+<!-- Main navigation -->
+
+  <!-- <div style="height: 100vh">
+    <div class="flex-center flex-column">
+
+      <h1 class="text-hide animated fadeIn mb-4"
+        style="background-image: url('https://mdbootstrap.com/img/logo/mdb-transparent-250px.png'); width: 250px; height: 90px;">
+        MDBootstrap</h1>
+      <h5 class="animated fadeIn mb-3">Thank you for using our product. We're glad you're with us.</h5>
+
+      <p class="animated fadeIn text-muted">MDB Team</p>
+    </div>
+  </div> -->
+  <!-- Start your project here-->
+
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+  <!-- js for changing the color of the nav bar when scrolled -->
+  <!-- end -->
+  <!-- js for changing the color of the links when page is scrolled -->
+</body>
+
+</html>

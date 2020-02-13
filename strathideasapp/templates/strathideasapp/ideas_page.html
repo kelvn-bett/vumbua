@@ -1,0 +1,155 @@
+{% extends 'strathideasapp/base.html' %}
+{% load static %}
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+  {% block content %}
+  <header style="height: 15%;">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'strathideasapp:home' %}">
+          <strong><span>VUMBUA</span></strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+          aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:home' %}">Home
+                </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'strathideasapp:idea_list' %}">Ideas</a>
+                <span class="sr-only">(current)</span>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:idea_create' %}">Create Idea</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'profile' %}"><img  class="card-img-top" style="height: 30px;width : 40px;" src="{{ user.profile.image.url }}" alt="Card image cap"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- Search form -->
+
+
+  <div class="container">
+    <div class="row">
+  <!-- search bar -->
+  <!-- <div class="search-bar">
+    <form class="form-inline active-cyan-4">
+      <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search">
+      <i class="fas fa-search" aria-hidden="true"></i>
+    </form>
+  </div> -->
+  <!-- end of search bar -->
+
+    <!-- table section -->
+
+        <div class="container-fluid" style="padding-top: 10%;">
+          <div class="row justify-content-around">
+            <!-- Table with panel -->
+            <div class="card card-cascade narrower">
+
+              <!--Card image-->
+              <div class="view view-cascade gradient-card-header blue-gradient narrower py-2  mb-3 d-flex justify-content-between align-items-center">
+
+                <h4 class="white-text mx-3" >Ideas List</h4>
+
+              </div>
+              <!--/Card image-->
+
+              <div class="px-4">
+
+                <div class="table-wrapper">
+                  <!--Table-->
+                    <table class="table table-hover mb-0">
+                  <thead>
+                    <tr>
+
+                      <th class="th-lg">Idea</th>
+                      <th class="th-lg">Status</th>
+                      <th class="th-lg">Creator</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                  {% for idea in ideas %}
+                  {%if request.user == idea.user.user%}
+                    <tr>
+                      <td><a href="{% url 'strathideasapp:idea_detail' idea.idea %}">{{idea.title }}</a></td>
+                      <td>
+                          {% if idea.status == 'Approved'  %}
+                                 <span class="badge badge-success">{{idea.status}}</span>
+
+                                {% elif  idea.status == 'Pending' %}
+                                 <span class="badge badge-secondary">{{idea.status}}</span>
+
+                                 {% elif idea.status == 'Declined' %}
+                                    <span class="badge badge-danger">{{idea.status}}</span>
+                                 {% else %}
+                                  <span class="badge badge-info">{{idea.status}}</span>
+                          {% endif %}
+                      </td>
+                      <td>{{idea.user.user }}</td>
+
+
+                    </tr>
+
+                     <!-- End Modal -->
+                     {% endif %}
+                    {% endfor %}
+
+                  </tbody>
+            </table>
+
+                  <!-- table pagination -->
+                 <nav aria-label="Page navigation" class="d-flex justify-content-center wow fadeIn" style="padding-top: 5%; padding-bottom: 2.5%">
+                 <ul class="pagination pagination-circle pg-blue">
+                 {% if is_paginated %}
+
+                  {% if page_obj.has_previous %}
+                   <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                    <li><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                  {% endif %}
+
+                  {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                      <a class="page-link active" href="?page={{ num }}">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                      <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                  {% endfor %}
+
+                  {% if page_obj.has_next %}
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                  {% endif %}
+
+                {% endif %}
+                 </ul>
+                  </nav>
+
+                  <!--Table-->
+                </div>
+
+              </div>
+
+            </div>
+            <!-- Table with panel -->
+          </div>
+        </div>
+    <!-- end if table section -->
+
+    </div>
+  </div>
+{% endblock %}

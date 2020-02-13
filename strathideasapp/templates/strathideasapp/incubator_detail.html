@@ -1,0 +1,143 @@
+{% extends 'strathideasapp/base.html' %}
+{% load static %}
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+
+{% block content %}
+  <header style="height: 15%;">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'strathideasapp:incubator_list' %}">
+          <strong><span>VUMBUA</span></strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+          aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:incubator_list' %}">Home</a>
+                <span class="sr-only">(current)</span>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'strathideasapp:incubator_list' %}">Ideas</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'profile' %}"><img  class="card-img-top" style="height: 30px;width : 40px;" src="{{ user.profile.image.url }}" alt="Card image cap"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- main content section -->
+  <section class="container my-5" style="padding-top:5px;">
+
+{#    <div class="search-bar">#}
+{#    <form class="form-inline active-cyan-4">#}
+{#      <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search">#}
+{#      <i class="fas fa-search" aria-hidden="true"></i>#}
+{#    </form>#}
+{#  </div>#}
+
+    <!-- categories and search bar code -->
+    <!-- <select class="mdb-select md-form" searchable="Search here..">
+      <option value="" disabled selected>Choose your country</option>
+      <option value="1">USA</option>
+      <option value="2">Germany</option>
+      <option value="3">France</option>
+      <option value="3">Poland</option>
+      <option value="3">Japan</option>
+    </select>
+    <label class="mdb-main-label">Label example</label> -->
+    <!-- end of categories and search bar code -->
+
+    <h2 class="h1-responsive text-center my-5"><strong>Incubator</strong></h2>
+
+
+    <!-- description -->
+<!--     <p class="text-center dark-grey-text w-responsive mx-auto mb-5">The following ideas are ready for incubation. Feel free to have a look at them:</p>
+ -->    <!-- end of description -->
+
+    <!-- cards section -->
+    <div class="row">
+      <div class="col-md-10">
+        <div class="row" id="allCards">
+
+          <!-- js for handling the cards -->
+          <script type="text/javascript">
+            $(document).ready(function() {
+              var divs = $('card');
+              for (var i = 0; i < divs.length; i+=4) {
+                  divs.slice(i, i + $).wrapAll('<div class="row"></div>')
+                }
+            });
+          </script>
+          <!-- end of cards js -->
+
+          <!-- cards code -->
+            <div class="container">
+                <div class="ftco-section">
+                    <h3 class=" pt-md-5 pt-sm-2 pt-5 pb-md-5 pb-sm-3 pb-5 font-weight-bold wow"> You can express Interest in the Idea below which is in the {{ object.category }} category</h3>
+                </div>
+                <hr>
+                <div class="card" >
+                    <img style="height:400px; width: 920px;" class="img-fluid" src="{{ object.image.url }}" alt="">
+                    <!-- Title -->
+                    <div class="card-body">
+                         <h4 class="card-title">{{ object.title}}</h4>
+                    <!-- Text -->
+                    </div>
+
+                    </div>
+                <hr>
+                <br>
+                    <h5>Problem Statement </h5><p class="card-text text-justify">{{ object.problem_statement}}</p>
+                <br>
+                    <h5>Executive Summary </h5><p class="card-text text-justify">{{ object.executive_summary}}</p>
+                <br>
+                    <h5>Objectives </h5><p class="card-text text-justify">{{ object.objectives}}</p>
+                <br>
+                    <h5>Limitations </h5><p class="card-text text-justify">{{ object.limitations}}</p>
+                <!-- Button -->
+                <br>
+                <a data-target="#exampleModalCenter{{ object.idea }}" data-toggle="modal" class="btn btn-primary btn-floating"> Express Interest </a>
+
+
+                <!-- Modal-->
+                <div class="modal fade" id="exampleModalCenter{{ object.idea }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Message of Interest Modal</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                             Are you sure you want to show interest in funding the idea "{{object.title}}" ?
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'strathideasapp:interest_create' incubators.idea %}" class="btn btn-danger btn-sm">Yes</a>
+                                <a data-dismiss="modal" aria-label="Close" class="btn btn-success btn-sm">No</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+          <!-- end of cards code -->
+
+        </div>
+      </div>
+    </div>
+    <!-- end of cards section -->
+  </section>
+{% endblock %}
+  <!-- end of main section -->

@@ -1,0 +1,95 @@
+{% extends 'strathideasapp/base.html' %}
+{% load static %}
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+
+{% block content %}
+<header>
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'strathideasapp:allideas' %}">
+        <strong><span>VUMBUA</span></strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+        aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'strathideasapp:allideas' %}">Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'strathideasapp:comm_home' %}">Ideas</a>
+              <span class="sr-only">(current)</span>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}"><img  class="card-img-top" style="height: 30px;width : 40px;" src="{{ user.profile.image.url }}" alt="Card image cap"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+          </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Navbar -->
+  <!-- Full Page Intro -->
+  <div class="view jarallax" data-jarallax='{"speed": 0.2}' style="background-image: url(../../static/img/bg_4.jpg); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+    <!-- Mask & flexbox options-->
+    <div class="d-flex justify-content-center align-items-center">
+      <!-- Content -->
+      <div class="container-fluid">
+        <!--Grid row-->
+        <div class="row justify-content-around">
+          <!--Grid column-->
+
+          <section>
+            <div class="container">
+
+              <div class="row" style="padding-top: 10%;">
+                <h2 class="h1-responsive text-center my-5"><strong>Welcome, {{request.user}} <hr> </strong></h2>
+                  <div class="row row-eq-height">
+                    <div class="col-sm-6 mt-5">
+                      <div class="card" style="height: 100%; display: flex;">
+                        <div class="card-header text-white">Ideas</div>
+                        <div class="card-body">
+                          <h4 class="card-title">All Submitted Ideas</h4>
+                          <p class="card-text">This directs you to the ideas list page. Click the button to visit:    </p>
+                          <a href="{% url 'strathideasapp:comm_home' %}" class="btn btn-primary">To Ideas</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-5">
+                      <div class="card" style="height: 100%; display: flex;">
+                        <div class="card-header text-white">Discussion Forums</div>
+                        <div class="card-body">
+                          <h4 class="card-title">Ideas Discussion</h4>
+                          <p class="card-text">This directs you to all discussion forums. Click the button to visit:</p>
+                          <a href="{% url 'strathideasapp:forum_list' %}" class="btn btn-primary">To Forum</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+      <!-- Content -->
+    </div>
+    <!-- Mask & flexbox options-->
+  </div>
+  <!-- Full Page Intro -->
+</header>
+{% endblock %}
+<!-- body section -->
+
+<!-- end of main section -->

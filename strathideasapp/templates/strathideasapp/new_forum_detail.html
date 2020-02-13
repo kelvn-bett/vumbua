@@ -1,0 +1,255 @@
+{% extends 'strathideasapp/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+{% block content %}
+
+
+  <header style="height: 15%;">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'strathideasapp:forum_list' %}">
+          <strong><span>VUMBUA</span></strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+          aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:allideas' %}">Home
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:comm_home' %}">Ideas</a>
+                <span class="sr-only">(current)</span>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'profile' %}"><img  class="card-img-top" style="height: 30px;width : 40px;" src="{{ user.profile.image.url }}" alt="Card image cap"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!--End of Navbar -->
+
+  <!-- Ideas detailed view section -->
+  <main class="mt-5 pt-5">
+    <div class="container">
+      <section class="mt-4">
+        <div class="row">
+          <div class="col-md-8 mb-4">
+{#            <!-- image attached to idea -->#}
+{#            <div class="card mb-4 wow fadeIn">#}
+{#              <img style="height: 400px; width: 900px;" src="{{idea.image.url}}" class="img-fluid" alt="Sample Image">#}
+{#            </div>#}
+{#            <!-- end of image -->#}
+
+            <!-- idea content information -->
+            <div class="card mb-4 wow fadeIn">
+              <!-- card content -->
+              <div class="card-body">
+                <h4 class="card-header text-center text-white mb-4">Forum Title: {{ forum.title }}</h4>
+                <p class="article-content">{{forum.body}}</p>
+
+                <!-- like & dislike buttons -->
+                <!-- <p class="h5 my-4">Did you like what you read?</p>
+                <a class="btn-floating btn-primary"></a>
+                <span><span><a type="button" class="btn-floating btn-large"><i class="fas fa-thumbs-up"></i></a></span></span>
+                <span><span><a type="button" class="btn-floating btn-large"><i class="fas fa-thumbs-down"></i></a></span></span> -->
+                <!-- end of like buttons -->
+              </div>
+              <!-- end of card content -->
+            </div>
+            <!-- end of idea content Information -->
+
+            <!-- Author box card section -->
+            <div class="card mb-4 wow fadeIn">
+
+              <div class="card-header text-white">
+                <span>Committee Member</span>
+              </div>
+
+              <!--Card content-->
+              <div class="card-body">
+
+                <div class="media d-block d-md-flex mt-3">
+                  <img class="d-flex mb-3 mx-auto z-depth-1" src="{{ forum.user.profile.image.url }}"
+                    alt="Generic placeholder image" style="width: 100px;">
+                  <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                    <h4>{{ forum.user|capfirst }}</h4>
+                    <ul class="list-unstyled list-inline mb-2 pt-1">
+                      <li class="list-inline-item">
+                        <a class="grey-text mr-1"><i class="fab fa-lg fa-facebook"> </i></a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a class="grey-text mr-1"><i class="fab fa-lg fa-twitter"> </i></a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a class="grey-text mr-1"><i class="fab fa-lg fa-google-plus"> </i></a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a class="grey-text mr-1"><i class="fab fa-lg fa-linkedin"> </i></a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a class="grey-text mr-1"><i class="fab fa-lg fa-instagram"> </i></a>
+                      </li>
+                    </ul>
+                    {{forum.user.profile.bio}}
+
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <!-- End of author box section -->
+
+                        <!-- Reply section -->
+            <div class="card mb-4 wow fadeIn">
+              <section>
+
+                <!-- Leave a reply -->
+                <div class="card-header text-white">Leave a reply</div>
+
+                <!-- Default form reply -->
+                <form class="px-1 mt-4" action="" method="post" novalidate>
+                    {% csrf_token%}
+
+                  <!-- Comment -->
+                  <div class=" md-textarea" style="padding-left: 20px; padding-right: 20px;">
+                      {{ form|crispy }}
+                  </div>
+
+{#                  <!-- Name -->#}
+{#                  <div class="md-form mt-5" style="padding-left: 20px; padding-right: 20px;">#}
+{#                    <label for="replyFormName" style="padding-left: 20px; padding-right: 20px;">Your name</label>#}
+{#                    <input type="text" id="replyFormName" class="form-control">#}
+{#                  </div>#}
+{##}
+{#                  <!-- Email -->#}
+{#                  <div class="md-form mt-5" style="padding-left: 20px; padding-right: 20px;">#}
+{#                    <label for="replyFormEmail" style="padding-left: 20px; padding-right: 20px;">Your e-mail</label>#}
+{#                    <input type="email" id="replyFormEmail" class="form-control">#}
+{#                  </div>#}
+
+                  <div class="text-center mt-4">
+                    <button class="btn btn-default btn-rounded btn-md" type="submit" style="background-color: #4285f4 !important; margin-bottom: 20px;">Comment</button>
+                  </div>
+
+                </form>
+                <!-- Default form reply -->
+
+              </section>
+              <!-- Reply section -->
+            </div>
+            <!-- End of reply section -->
+
+            <!-- Comment section -->
+            <!--Section: Comments-->
+            <section class="my-5">
+
+              <div class="card mb-4 wow fadeIn">
+              <!-- Card header -->
+              <div class="card-header text-white">{{forum.comment_count}} comments</div>
+                  {% for comment in forum.get_comments %}
+              <div class="media d-block d-md-flex mt-4" style="padding-left: 20px; padding-right: 20px;">
+                <img class="card-img-64 d-flex mx-auto mb-3" src="{{ comment.user.profile.image.url }}"
+                  alt="Generic placeholder image">
+                <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                  <p>
+                    <a href="">{{ comment.user|capfirst }}</a>
+
+                  </p>
+
+                  <p>{{ comment.body|linebreaks }}</p>
+                    <a  class="pull-right">
+                        <i class="fas fa-reply"> Reply</i>
+                    </a>
+                <div class="replied-comments" style="display: none;">
+                    {% for reply in comment.replies.all %}
+
+
+                  <div class="media d-block d-md-flex mt-4">
+
+                    <img class="card-img-64 d-flex mx-auto mb-3" src="{{reply.user.profile.image.url}}"
+                      alt="Generic placeholder image">
+                    <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                      <p class="mt-0">
+                        <a href="">{{ reply.user }}</a>
+                      </p>
+                      {{ reply.body | linebreaks }}
+                    </div>
+                  </div>
+                    {% endfor %}
+                  <!-- Quick Reply -->
+                    <div class="form-group mt-4">
+                      <form class="px-1 mt-4" action="" method="post" novalidate>
+                    {% csrf_token%}
+                          <input type="hidden" name="comment_ids" value="{{ comment.comment }}">
+                  <!-- Comment -->
+                  <div class=" md-textarea" style="padding-left: 20px; padding-right: 20px;">
+                      {{ form|crispy }}
+                  </div>
+
+                    <div class="text-center my-4">
+                      <button class="btn btn-primary btn-sm" type="submit">Reply</button>
+                    </div>
+                </form>
+
+                </div>
+
+                </div>
+              </div>
+                      </div>
+
+                      {% empty %}
+                      <p>Be the first to leave a comment</p>
+                  {% endfor %}
+
+              <!--Pagination -->
+              <hr class="my-5">
+        {% if comments_pagination.has_other_pages  %}
+
+              {% if comments_pagination.has_previous %}
+                <a class="btn btn-outline-primary mb-4" href="?page=1">First</a>
+                <a class="btn btn-outline-primary mb-4" href="?page={{ comments_pagination.previous_page_number }}">Previous</a>
+              {% endif %}
+
+              {% for num in comments_pagination.paginator.page_range %}
+                {% if comments_pagination.number == num %}
+                  <a class="btn btn-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > comments_pagination.number|add:'-3' and num < comments_pagination.number|add:'3' %}
+                  <a class="btn btn-outline-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+              {% endfor %}
+
+              {% if page_obj.has_next %}
+                <a class="btn btn-outline-primary mb-4" href="?page={{ comments_pagination.next_page_number }}">Next</a>
+                <a class="btn btn-outline-primary mb-4" href="?page={{ comments_pagination.paginator.num_pages }}">Last</a>
+              {% endif %}
+
+        {% endif %}
+              <!--Pagination -->
+
+            </div>
+            </section>
+            <!--Section: Comments-->
+            <!-- End of comment section -->
+
+
+
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <!-- End of detailed view section -->
+{% endblock %}

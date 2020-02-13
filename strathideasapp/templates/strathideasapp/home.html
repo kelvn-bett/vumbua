@@ -1,0 +1,927 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Vumbua</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/v-favicon.png' %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <!-- this has been moved from styles.css because it only affects this page other pages should have height:auto not limited to 100% -->
+  <!-- <style type="text/css">
+    html,
+    body,
+    header,
+    .jarallax {
+      height: 100%;
+    }
+  </style> -->
+
+  <style>
+    html,
+    body,
+    header,
+    .jarallax {
+      height: 100%;
+    }
+
+    @media (min-width: 560px) and (max-width: 740px) {
+
+      html,
+      body,
+      header,
+      .jarallax {
+        height: 500px;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+
+      html,
+      body,
+      header,
+      .jarallax {
+        height: 500px;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2A48 !important;
+      }
+
+      .navbar {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12) !important;
+      }
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+  <header>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <strong><span>VUMBUA</span></strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+          aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+          <ul class="navbar-nav ml-auto">
+              {% if user.is_authenticated %}
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'strathideasapp:home' %}">Home
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:idea_list' %}">Ideas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:idea_create' %}">Create Idea</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'profile' %}"><img  class="card-img-top" style="height: 30px;width : 40px;" src="{{ user.profile.image.url }}" alt="Card image cap"></a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+              {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+
+    <div id="home" class="view jarallax" data-jarallax='{"speed": 0.2}'>
+
+        <!--Carousel Wrapper-->
+    <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
+      <!--Indicators-->
+      <ol class="carousel-indicators">
+      <li data-target="#carousel-example-2" data-slide-to="0" class="active"></li>
+      <li data-target="#carousel-example-2" data-slide-to="1"></li>
+      <li data-target="#carousel-example-2" data-slide-to="2"></li>
+    </ol>
+    <!--/.Indicators-->
+  <!--Slides-->
+  <div class="carousel-inner" role="listbox">
+    <div class="carousel-item active">
+      <div class="view">
+        <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(68).jpg"
+          alt="First slide">
+        <div class="mask rgba-black-slight"></div>
+      </div>
+          <div class="mask rgba-white-light d-flex justify-content-center align-items-center">
+            <!-- Content -->
+            <div class="container">
+              <!--Grid row-->
+              <div class="row">
+                <!--Grid column-->
+                <div class="col-md-12 white-text text-center">
+                  <h1 class="display-3 mb-0 pt-md-5 pt-5 white-text font-weight-bold wow fadeInDown" data-wow-delay="0.3s">WELCOME TO
+                    <a class="font-weight-bold" style="color:#4285f4">VUMBUA</a>
+                  </h1>
+                  <h5 class="text-uppercase pt-md-5 pt-sm-2 pt-5 pb-md-5 pb-sm-3 pb-5 white-text font-weight-bold wow fadeInDown"
+                    data-wow-delay="0.3s">Welcome</h5>
+                    {% if user.is_authenticated %}
+
+                    {% else %}
+                  <div class="wow fadeInDown" data-wow-delay="0.3s">
+                    <a class="btn btn-light-blue btn-lg" href="{% url 'register' %}">sign up</a>
+                    <a class="btn btn-indigo btn-lg"  href="{% url 'login' %}">login</a>
+                    {% endif %}
+
+                  </div>
+                </div>
+                <!--Grid column-->
+              </div>
+              <!--Grid row-->
+            </div>
+            <!-- Content -->
+    </div>
+    </div>
+    <div class="carousel-item">
+      <!--Mask color-->
+      <div class="view">
+        <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(9).jpg"
+          alt="Third slide">
+        <div class="mask rgba-black-slight"></div>
+      </div>
+          <div class="mask rgba-white-light d-flex justify-content-center align-items-center">
+      <!-- Content -->
+      <div class="container">
+        <!--Grid row-->
+        <div class="row">
+          <!--Grid column-->
+          <div class="col-md-12 white-text text-center">
+            <h1 class="display-3 mb-0 pt-md-5 pt-5 white-text font-weight-bold wow fadeInDown" data-wow-delay="0.3s">WELCOME TO
+              <a class="font-weight-bold" style="color:#4285f4">VUMBUA</a>
+            </h1>
+            <h5 class="text-uppercase pt-md-5 pt-sm-2 pt-5 pb-md-5 pb-sm-3 pb-5 white-text font-weight-bold wow fadeInDown"
+              data-wow-delay="0.3s">Welcome</h5>
+            <div class="wow fadeInDown" data-wow-delay="0.3s">
+              <a class="btn btn-light-blue btn-lg" id="signup-btn" href="vumbua_signup.html">sign up</a>
+              <a class="btn btn-indigo btn-lg" id="login-btn" href="{% url 'login' %}">login</a>
+            </div>
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+      <!-- Content -->
+    </div>
+    </div>
+    <div class="carousel-item">
+      <!--Mask color-->
+      <div class="view">
+        <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(9).jpg"
+          alt="Third slide">
+        <div class="mask rgba-black-slight"></div>
+      </div>
+          <div class="mask rgba-white-light d-flex justify-content-center align-items-center">
+      <!-- Content -->
+      <div class="container">
+        <!--Grid row-->
+        <div class="row">
+          <!--Grid column-->
+          <div class="col-md-12 white-text text-center">
+            <h1 class="display-3 mb-0 pt-md-5 pt-5 white-text font-weight-bold wow fadeInDown" data-wow-delay="0.3s">WELCOME TO
+              <a class="font-weight-bold" style="color:#4285f4">VUMBUA</a>
+            </h1>
+            <h5 class="text-uppercase pt-md-5 pt-sm-2 pt-5 pb-md-5 pb-sm-3 pb-5 white-text font-weight-bold wow fadeInDown"
+              data-wow-delay="0.3s">Welcome</h5>
+              {% if user.is_authenticated %}
+
+              {% else %}
+            <div class="wow fadeInDown" data-wow-delay="0.3s">
+              <a class="btn btn-light-blue btn-lg" href="{% url 'register' %}">sign up</a>
+              <a class="btn btn-indigo btn-lg"  href="{% url 'login' %}">login</a>
+              {% endif %}
+
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+      <!-- Content -->
+    </div>
+    </div>
+  </div>
+  <!--/.Slides-->
+  <!--Controls-->
+  <a class="carousel-control-prev" href="#carousel-example-2" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carousel-example-2" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+  <!--/.Controls-->
+</div>
+<!--/.Carousel Wrapper-->
+
+    </div>
+
+  </header>
+
+  <!-- About us section -->
+
+  <div class="container">
+
+      <!--Section: About-->
+      <section id="about" class="mt-4 mb-2 smooth-scroll">
+        <hr class="my-3">
+
+        <!--Secion heading-->
+        <h2 class="text-center my-5 wow fadeIn display-3 mb-0 pt-md-5 pt-5 wow fadeInDown h1-responsive" data-wow-delay="0.3s" style="font-weight: 900px;">ABOUT <a class="" style="color:#4285f4">VUMBUA</a></h2>
+
+        <!--First row-->
+        <div class="row">
+
+          <!--First column-->
+          <div class="col-lg-5 col-md-12 mb-5 pb-4 wow fadeIn" data-wow-delay="0.4s">
+
+            <!--Image-->
+            <img src="https://mdbootstrap.com/img/Photos/Horizontal/Architecture/4-col/img%20%289%29.jpg"
+              class="img-fluid z-depth-1 rounded" alt="About Vumbua">
+
+          </div>
+          <!--First column-->
+
+          <!--Second column-->
+          <div class="col-lg-6 dark-grey-text ml-lg-auto col-md-12 wow fadeIn" data-wow-delay="0.4s">
+
+            <!--Description-->
+            <p align="justify">Welcome to Vumbua, an Innovation Hub that offers a number of incubation programmes in the Bioeconomy (agro processing and pharmaceutical), Smart Industries (ICT and advanced manufacturing) and Green Economy (Water purification, waste management and renewable energy).
+            </p>
+
+            <p align="justify">In addition, The Innovation Hub operates a range of enterprise development, skills development and innovation enabling programmes both in the science park and throughout Kenya</p>
+
+          </div>
+          <!--Second column-->
+
+        </div>
+        <!--First row-->
+
+      </section>
+      <!--Section: About-->
+
+      <hr>
+
+      <!--Projects section v.3-->
+      <section id="operates" class="mt-4 mb-5 pb-4 smooth-scroll">
+
+        <!--Section heading-->
+        <h2 class="text-center my-5 wow fadeIn display-3 mb-0 pt-md-5 pt-5 wow fadeInDown h1-responsive" data-wow-delay="0.3s" style="font-weight: 900px;">HOW <a class="" style="color:#4285f4">VUMBUA</a> OPERATES...</h2>
+        <!--Section description-->
+        <p class="text-center w-responsive mx-auto my-5 grey-text wow fadeIn" data-wow-delay="0.2s">Strathmore university is an institution that is
+composed of mainly the students and the staff
+members. These two entities usually have a number of
+good ideas which are frequently thrown under the bus.
+This is mainly due to lack of resources and a platform
+to share their ideas and improve them given a certain
+way of scrutinizing them and in the end the final
+product is polished perfectly. Vumbua is a platform for sharing the ideas as the incubatees are
+mentored.</p>
+
+        <!--First row-->
+        <div class="row wow fadeIn" data-wow-delay="0.4s">
+
+          <!--First column-->
+          <div class="col-md-12">
+
+            <div class="mb-2">
+
+              <!--Nav tabs-->
+              <ul class="nav md-pills pills-primary d-flex justify-content-center" role="tablist">
+
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#panel31" role="tab" aria-selected="true">
+                    <i class="fas fa-graduation-cap fa-2x"></i>
+                    <br> Ordinary User</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#panel32" role="tab">
+                    <i class="fas fa-users fa-2x"></i>
+                    <br> Committee</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#panel33" role="tab">
+                    <i class="fas fa-university fa-2x"></i>
+                    <br> Incubator</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#panel34" role="tab">
+                    <i class="fas fa-home fa-2x"></i>
+                    <br> Industry</a>
+                </li>
+              </ul>
+
+            </div>
+
+            <!--Tab panels-->
+            <div class="tab-content">
+
+              <!--Panel 1-->
+              <div class="tab-pane fade in show active" id="panel31" role="tabpanel">
+                <br>
+
+                <!--First row-->
+                <div class="row">
+
+                  <!--First column-->
+                  <div class="col-lg-5 col-md-12">
+
+                    <!--Featured image-->
+                    <div class="view overlay z-depth-1 mb-2">
+                      <img src="https://mdbootstrap.com/img/Photos/Others/images/54.jpg" class="rounded img-fluid"
+                        alt="sample image">
+                    </div>
+                  </div>
+                  <!--First column-->
+
+                  <!--Second column-->
+                  <div class="col-lg-6 ml-lg-auto col-md-12 text-center text-md-left">
+
+                    <!--Title-->
+                    <h4 class="mb-5">Ordinary User</h4>
+
+                    <!--Description-->
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo animi soluta
+                      ratione
+                      quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit
+                      eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad
+                      perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut
+                      possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+
+                  </div>
+                  <!--Second column-->
+                </div>
+                <!--First row-->
+
+              </div>
+              <!--Panel 1-->
+
+              <!--Panel 2-->
+              <div class="tab-pane fade" id="panel32" role="tabpanel">
+                <br>
+
+                <!--First row-->
+                <div class="row">
+
+                  <!--First column-->
+                  <div class="col-lg-5 col-md-12">
+
+                    <!--Featured image-->
+                    <div class="view overlay z-depth-1 mb-2">
+                      <img src="https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20%2840%29.jpg"
+                        class="rounded img-fluid" alt="sample image">
+                    </div>
+                  </div>
+                  <!--First column-->
+
+                  <!--Second column-->
+                  <div class="col-lg-6 ml-lg-auto col-md-12 text-center text-md-left">
+
+                    <!--Title-->
+                    <h4 class="mb-5">Committee</h4>
+
+                    <!--Description-->
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo animi soluta
+                      ratione
+                      quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit
+                      eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad
+                      perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut
+                      possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+
+                  </div>
+                  <!--Second column-->
+                </div>
+                <!--First row-->
+
+              </div>
+              <!--Panel 2-->
+
+              <!--Panel 3-->
+              <div class="tab-pane fade" id="panel33" role="tabpanel">
+                <br>
+
+                <!--First row-->
+                <div class="row">
+
+                  <!--First column-->
+                  <div class="col-lg-5 col-md-12">
+
+                    <!--Featured image-->
+                    <div class="view overlay z-depth-1 mb-2">
+                      <img src="https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20%2841%29.jpg"
+                        class="rounded img-fluid" alt="sample image">
+                    </div>
+                  </div>
+                  <!--First column-->
+
+                  <!--Second column-->
+                  <div class="col-lg-6 ml-lg-auto col-md-12 text-center text-md-left">
+
+                    <!--Title-->
+                    <h4 class="mb-5">Incubator</h4>
+
+                    <!--Description-->
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo animi soluta
+                      ratione
+                      quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit
+                      eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad
+                      perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut
+                      possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+
+                  </div>
+                  <!--Second column-->
+                </div>
+                <!--First row-->
+
+              </div>
+              <!--Panel 3-->
+
+              <!--Panel 4-->
+              <div class="tab-pane fade" id="panel34" role="tabpanel">
+                <br>
+
+                <!--First row-->
+                <div class="row">
+
+                  <!--First column-->
+                  <div class="col-lg-5 col-md-12">
+
+                    <!--Featured image-->
+                    <div class="view overlay z-depth-1 mb-2">
+                      <img src="https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20%2842%29.jpg"
+                        class="rounded img-fluid" alt="sample image">
+                    </div>
+                  </div>
+                  <!--First column-->
+
+                  <!--Second column-->
+                  <div class="col-lg-6 ml-lg-auto col-md-12 text-center text-md-left">
+
+                    <!--Title-->
+                    <h4 class="mb-5">Industry</h4>
+
+                    <!--Description-->
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo animi soluta
+                      ratione
+                      quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit
+                      eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad
+                      perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut
+                      possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+
+                  </div>
+                  <!--Second column-->
+                </div>
+                <!--First row-->
+
+              </div>
+              <!--Panel 4-->
+
+            </div>
+            <!--Tab panels-->
+
+          </div>
+          <!--First column-->
+
+        </div>
+        <!--First row-->
+
+      </section>
+      <!--Projects section v.3-->
+
+    </div>
+
+  <!-- End of about us section -->
+
+  <!-- Operations section -->
+
+  <!-- End of operations section -->
+
+  <!-- <div class="row"> -->
+    <div class="streak streak-md streak-photo" style="background-image:url('https://mdbootstrap.com/img/Photos/Horizontal/Things/full%20page/img%20%287%29.jpg')">
+      <div class="flex-center white-text rgba-indigo-strong pattern-1">
+        <ul class="mb-0 list-unstyled">
+          <li>
+            <h2 class="h2-responsive white-text"><i class="fas fa-quote-left" aria-hidden="true"></i> The people who are
+              crazy enough to think they can change the world are the ones who do. <i class="fas fa-quote-right"
+                aria-hidden="true"></i></h2>
+          </li>
+          <li class="mb-0">
+            <h5 class="text-center font-italic mb-0 white-text">~ Steve Jobs</h5>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <hr />
+      </div>
+      <div class="col-2"></div>
+    </div>
+
+  <!-- </div> -->
+
+
+  <!-- End of streak section -->
+
+  <!-- Previous projects section -->
+  <section id="projects" class="extra-margins text-center smooth-scroll">
+    <div class="container">
+      <div class="col-md-12 white-text text-center">
+        <h2 class="display-3 mb-0 pt-md-5 pt-5 wow fadeInDown h1-responsive my-3 justify-content-center" data-wow-delay="0.3s">INCUBATED <a class="" style="color:#4285f4">PROJECTS</a>
+      </h2>
+      </div>
+      <div class="row col-md-12 text-center">
+        <p class="grey-text w-responsive mx-auto mb-5">Here are some ideas that have successfully gone through our platform, right from conception all the way to incubation:</p>
+      </div>
+
+      <div class="row">
+
+        <!-- Idea card 1 -->
+        <!-- Grid row -->
+      <div class="row text-center">
+        {% for idea in ideas %}
+
+        <!-- Grid column -->
+        <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
+
+          <!--Featured image-->
+          <div class="view overlay rounded z-depth-1">
+            <img style="height:400px; width: 500px;" class="img-fluid" src="{{idea.image.url}}" alt="Sample image">
+            <a>
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+          <!--Excerpt-->
+          <div class="card-body pb-0">
+            <h4 class="my-3">{{ idea.title }}</h4>
+            <p class="grey-text">{{ idea.problem_statement|slice:":255" }}...
+            </p>
+            <a class="btn btn-indigo btn-sm" href="{% url 'strathideasapp:idea_detail' idea.idea %}"><i class="fas fa-clone left"></i> View project</a>
+          </div>
+
+        </div>
+        <!-- Grid column -->
+        <!-- End of idea card 1 -->
+
+        <!-- Idea card 2 -->
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <!-- End of card 2 -->
+
+        <!-- Idea card 3 -->
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <!-- End of card 3 -->
+        {% endfor %}
+      </div>
+
+    </div>
+
+    <hr />
+  </div>
+  </section>
+
+  <!-- End of previous projects seciton -->
+
+
+  <!-- Contact us section -->
+  <section class="contact-section my-5 smooth-scroll" id="contactus">
+    <div class="col-md-12 white-text text-center">
+      <h2 class="display-3 mb-0 pt-md-5 pt-5 wow fadeInDown h1-responsive my-3 justify-content-center" data-wow-delay="0.3s">CONTACT <a class="" style="color:#4285f4">US</a>
+      </h2>
+    </div>
+    <div class="container my-5 py-5 z-depth-1">
+
+
+      <!--Section: Content-->
+      <section class="px-md-5 mx-md-5 text-center text-lg-left dark-grey-text">
+
+        <style>
+          .map-container {
+            height: 200px;
+            position: relative;
+          }
+
+          .map-container iframe {
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+          }
+        </style>
+
+        <!--Google map-->
+        <div id="map-container-google-1" class="z-depth-1 map-container mb-5">
+          <iframe src="https://www.google.com/maps/@-1.303081,36.8142598,15z" frameborder="0"
+            style="border:0" allowfullscreen></iframe>
+        </div>
+        <!--Google Maps-->
+
+        <!--Grid row-->
+        <div class="row">
+
+          <!--Grid column-->
+          <div class="col-lg-5 col-md-12 mb-0 mb-md-0">
+
+            <h3 class="font-weight-bold">Contact Us</h3>
+
+            <p class="text-muted">If you would like to get in touch with us, please do so using either one of the following
+             lines, or fill in the form and we'll get back to you within no time:</p>
+
+            <p><span class="font-weight-bold mr-2">Email:</span><a href="">contact@mycompany.com</a></p>
+            <p><span class="font-weight-bold mr-2">Phone:</span><a href="">+48 123 456 789</a></p>
+
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-7 col-md-12 mb-4 mb-md-0">
+
+            <!--Grid row-->
+            <div class="row">
+
+              <!--Grid column-->
+              <div class="col-md-6">
+
+                <!-- Material outline input -->
+                <div class="md-form md-outline mb-0">
+                  <input type="text" id="form-first-name" class="form-control">
+                  <label for="form-first-name">First name</label>
+                </div>
+
+              </div>
+              <!--Grid column-->
+
+              <!--Grid column-->
+              <div class="col-md-6">
+
+                <!-- Material outline input -->
+                <div class="md-form md-outline mb-0">
+                  <input type="text" id="form-last-name" class="form-control">
+                  <label for="form-last-name">Last name</label>
+                </div>
+
+              </div>
+              <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
+
+            <!-- Material outline input -->
+            <div class="md-form md-outline mt-3">
+              <input type="email" id="form-email" class="form-control">
+              <label for="form-email">E-mail</label>
+            </div>
+
+            <!-- Material outline input -->
+            <div class="md-form md-outline">
+              <input type="text" id="form-subject" class="form-control">
+              <label for="form-subject">Subject</label>
+            </div>
+
+            <!--Material textarea-->
+            <div class="md-form md-outline mb-3">
+              <textarea id="form-message" class="md-textarea form-control" rows="3"></textarea>
+              <label for="form-message">How we can help?</label>
+            </div>
+
+            <button type="submit" class="btn btn-info btn-sm ml-0 text-white">Submit<i class="far fa-paper-plane ml-2"></i></button>
+
+          </div>
+          <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+
+      </section>
+      <!--Section: Content-->
+
+
+    </div>
+
+
+  </section>
+  <!-- End of contact us section -->
+  </main>
+
+<!-- end of main section -->
+
+<!-- Footer -->
+  <footer class="page-footer font-small unique-color-dark pt-4">
+
+    <!-- Footer Links -->
+    <div class="container text-center text-md-left">
+
+      <!-- Footer links -->
+      <div class="row text-center text-md-left mt-3 pb-3">
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+          <h6 class="text-uppercase mb-4 font-weight-bold">Vumbua</h6>
+          <p>Vumbua offers a number of incubation programmes in the Bioeconomy (agro processing and pharmaceutical), Smart Industries (ICT and advanced manufacturing) and Green Economy (Water purification, waste management and renewable energy)</p>
+        </div>
+        <!-- Grid column -->
+
+        <hr class="w-100 clearfix d-md-none">
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Services</h6>
+            <p>
+              <a href="#!">Incubation</a>
+            </p>
+            <p>
+              <a href="#!">Idea Development</a>
+            </p>
+            <p>
+              <a href="#!">Mentorship</a>
+            </p>
+        </div>
+
+        <hr class="w-100 clearfix d-md-none">
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+          <h6 class="text-uppercase mb-4 font-weight-bold">Links</h6>
+          <p>
+            <a href="#!">Home</a>
+          </p>
+          <p>
+            <a href="#!">About Us</a>
+          </p>
+          <p>
+            <a href="#!">Contact Us</a>
+          </p>
+          <p>
+            <a href="#!">Help</a>
+          </p>
+        </div>
+
+        <!-- Grid column -->
+        <hr class="w-100 clearfix d-md-none">
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+          <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+          <p>
+            <i class="fas fa-home mr-3"></i>Ole Sangale Road, Madaraka, Nairobi</p>
+          <p>
+            <i class="fas fa-envelope mr-3"></i> info@vumbua.com</p>
+          <p>
+            <i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Footer links -->
+
+      <hr>
+
+      <!-- Grid row -->
+      <div class="row d-flex align-items-center">
+
+        <!-- Grid column -->
+        <div class="col-md-7 col-lg-8">
+
+          <!--Copyright-->
+          <p class="text-center text-md-left">© 2019 Copyright:
+            <a href="https://mdbootstrap.com/education/bootstrap/">
+              <strong> www.SADAC.com</strong>
+            </a>
+          </p>
+
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-5 col-lg-4 ml-lg-0">
+
+          <!-- Social buttons -->
+          <div class="text-center text-md-right">
+            <ul class="list-unstyled list-inline">
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fab fa-google-plus-g"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row -->
+
+    </div>
+    <!-- Footer Links -->
+
+  </footer>
+  <!-- Footer -->
+
+<!-- Main navigation -->
+
+  <!-- <div style="height: 100vh">
+    <div class="flex-center flex-column">
+
+      <h1 class="text-hide animated fadeIn mb-4"
+        style="background-image: url('https://mdbootstrap.com/img/logo/mdb-transparent-250px.png'); width: 250px; height: 90px;">
+        MDBootstrap</h1>
+      <h5 class="animated fadeIn mb-3">Thank you for using our product. We're glad you're with us.</h5>
+
+      <p class="animated fadeIn text-muted">MDB Team</p>
+    </div>
+  </div> -->
+  <!-- Start your project here-->
+
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+  <!-- js for changing the color of the nav bar when scrolled -->
+  <!-- end -->
+  <!-- js for changing the color of the links when page is scrolled -->
+  <!-- js for carousel -->
+  <script type="text/javascript">
+    $('.carousel').carousel({
+      interval: 2500
+    })
+  </script>
+  <!-- end of js for carousel -->
+
+  <!-- js code for incubated projects section -->
+
+  <script type="text/javascript">
+    $('.carousel.carousel-multi-item.v-2 .carousel-item').each(function(){
+        var next = $(this).next();
+        if (!next.length) {
+          next = $(this).siblings(':first');
+        }
+        next.children(':first-child').clone().appendTo($(this));
+
+        for (var i=0;i<4;i++) {
+          next=next.next();
+          if (!next.length) {
+            next=$(this).siblings(':first');
+          }
+          next.children(':first-child').clone().appendTo($(this));
+        }
+      });
+  </script>
+
+  <!-- end of js code for incubated projects section -->
+
+
+</body>
+
+</html>

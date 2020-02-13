@@ -1,0 +1,208 @@
+{% extends 'strathideasapp/base.html' %}
+{% load static %}
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+{% block content %}
+  <header style="height: 15%;">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'strathideasapp:allideas' %}">
+          <strong><span>VUMBUA</span></strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+          aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:allideas' %}">Home
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:comm_home' %}">Ideas</a>
+                <span class="sr-only">(current)</span>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'profile' %}"><img  class="card-img-top" style="height: 30px;width : 40px;" src="{{ user.profile.image.url }}" alt="Card image cap"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- Search form -->
+
+
+  <div class="container">
+    <div class="row">
+  <!-- search bar -->
+  <!-- <div class="search-bar">
+    <form class="form-inline active-cyan-4">
+      <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search">
+      <i class="fas fa-search" aria-hidden="true"></i>
+    </form>
+  </div> -->
+  <!-- end of search bar -->
+
+    <!-- table section -->
+
+        <div class="container-fluid" style="padding-top: 10%;">
+          <div class="row justify-content-around">
+            <!-- Table with panel -->
+            <div class="card card-cascade narrower">
+
+              <!--Card image-->
+              <div class="view view-cascade gradient-card-header blue-gradient narrower py-2  mb-3 d-flex justify-content-between align-items-center">
+
+                <h4 class="white-text mx-3" >Ideas List</h4>
+
+              </div>
+              <!--/Card image-->
+
+              <div class="px-4">
+
+                <div class="table-wrapper">
+                  <!--Table-->
+                  <table class="table table-hover mb-0">
+                      {% if messages %}
+                     {% for message in messages %}
+                     <p  {% if message.tags %} class="alert alert-warning" {% endif %}>
+                        {{ message }} </p>
+                         {% endfor %}
+                {% endif %}
+                    <!--Table head-->
+                    <thead>
+                      <tr>
+                        <th class="th-lg">
+                          Idea
+                        </th>
+                        <th class="th-lg">
+                          Creator
+                        </th>
+                        <th class="th-lg">
+                          Submission Date
+                        </th>
+                        <th class="th-lg">
+                          Current Status
+                        </th>
+                           <th class="th-lg">
+                          Action
+                        </th>
+                           <th class="th-lg">
+                          Total Votes
+                        </th>
+                        <th class="th-lg">
+                       Total Approved
+                     </th>
+                      </tr>
+                    </thead>
+                    <!--Table head-->
+
+                    <!--Table body-->
+                    <tbody>
+                     {% for idea in ideas %}
+                      <tr>
+                       <td><a href="{% url 'strathideasapp:idea_detail' idea.idea %}">{{idea.title}}</a></td>
+                          <td>{{idea.user.user}}</td>
+                          <td>{{idea.date_posted|date:"D d M Y"}}</td>
+                          <td>
+                            {% if idea.status == 'Approved'  %}
+                             <span class="badge badge-success">{{idea.status}}</span>
+
+                            {% elif  idea.status == 'Pending' %}
+                             <span class="badge badge-secondary">{{idea.status}}</span>
+
+                             {% elif idea.status == 'Declined' %}
+                                <span class="badge badge-danger">{{idea.status}}</span>
+                             {% else %}
+                              <span class="badge badge-info">{{idea.status}}</span>
+                              {% endif %}
+
+                          </td>
+                          <td>
+                          <div class="btn-group">
+                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Action
+                                </button>
+                                <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{% url 'strathideasapp:approve' idea.idea %}">Approve</a>
+                                        <!-- <a class="dropdown-item" href="#">Pending</a> -->
+                                        <a data-target="#exampleModalCenter{{ idea.idea }}" data-toggle="modal" class="dropdown-item" >Decline</a>
+{#                                    href="{% url 'strathideasapp:decline' idea.idea %}" #}
+                                </div>
+                              </div>
+                                   <!-- Modal-->
+                        <div class="modal fade" id="exampleModalCenter{{ idea.idea }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Warning</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                     Are you sure you want to decline the idea "<strong>{{idea.title}}</strong>" ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{% url 'strathideasapp:decline' idea.idea %}" class="btn btn-danger btn-sm">Yes</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            </td>
+                      <td>{{idea.votes}}</td>
+                      <td>{{idea.approved}}</td>
+                      </tr>
+
+                    {% endfor %}
+                    </tbody>
+                    <!--Table body-->
+                  </table>
+
+                  <!-- table pagination -->
+                 <nav aria-label="Page navigation" class="d-flex justify-content-center wow fadeIn" style="padding-top: 5%; padding-bottom: 2.5%">
+                 <ul class="pagination pagination-circle pg-blue">
+                 {% if is_paginated %}
+
+                  {% if page_obj.has_previous %}
+                   <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                    <li><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                  {% endif %}
+
+                  {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                      <a class="page-link active" href="?page={{ num }}">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                      <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                  {% endfor %}
+
+                  {% if page_obj.has_next %}
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                  {% endif %}
+
+                {% endif %}
+                 </ul>
+                  </nav>
+                </div>
+
+              </div>
+
+            </div>
+            <!-- Table with panel -->
+          </div>
+        </div>
+    <!-- end if table section -->
+
+    </div>
+  </div>
+
+{% endblock %}

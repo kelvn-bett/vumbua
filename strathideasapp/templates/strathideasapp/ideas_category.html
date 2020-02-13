@@ -1,0 +1,157 @@
+{% extends 'strathideasapp/base.html' %}
+{% load static %}
+  <!-- Start your project here-->
+  <!-- Main navigation -->
+
+{% block content %}
+  <header style="height: 15%;">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'strathideasapp:incubator_list' %}">
+          <strong><span>VUMBUA</span></strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+          aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" {%if request.user.profile.role_id == 4 %} href="{% url 'strathideasapp:home' %}" {% elif request.user.profile.role_id == 2 %} href="{% url 'strathideasapp:allideas' %}" {% elif request.user.profile.role_id == 1 %} href="{% url 'strathideasapp:incubator_list' %}" {% endif %}>Home
+                </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'strathideasapp:incubator_list' %}">Ideas</a>
+                <span class="sr-only">(current)</span>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'strathideasapp:category_list' %}">Idea Categories</a>
+              </li>
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="{% url 'strathideasapp:idea_create' %}">Create Idea</a>#}
+{#              </li>#}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}"><img  class="card-img-top" style="height: 30px;width : 40px;" src="{{ user.profile.image.url }}" alt="Card image cap"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!--End of Navbar -->
+
+  <!-- beginning of ideas list view -->
+  <!-- Section: Blog v.3 -->
+    <section class="container my-5" style="padding-top:5px;">
+      <!-- Search form -->
+<!-- <form class="form-inline active-cyan-4">
+  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"
+    aria-label="Search">
+  <i class="fas fa-search" aria-hidden="true"></i>
+</form> -->
+
+    <!-- Section heading -->
+    <h2 class="h1-responsive text-center my-5"><strong>Ideas in {{category.industry_category_name}}</strong></h2>
+
+    <!-- Section description -->
+    <p class="text-center dark-grey-text w-responsive mx-auto mb-5">Welcome to the Vumbua Idea Bank. Feel free to
+    read through ideas that have been shared on this platform.</p>
+
+    <div class="container">
+   <div class="widget search">
+     <form action="{% url 'strathideasapp:Search' %}" class="form-inline active-cyan-4">
+       <input class="form-control form-control-sm mr-3 w-75"
+        type="text" name="q" placeholder="Idea Title/Problem Statement">
+       <button class="btn btn-primary btn-md" type="submit" class="submit">Search</button>
+     </form>
+<br><br>
+   <!-- <form action="{% url 'strathideasapp:Search' %}" class="search-form">
+       <div class="form-group">
+       <input type="text" name="q" placeholder="Idea Title/Problem Statement">
+       <button type="submit" class="submit">Search</button>
+       </div>
+   </form> -->
+   </div>
+  </div>
+
+
+    <!-- Code for 1 single idea list item -->
+        {% for idea in ideas_list %}
+        {% if idea.is_public == True or idea.user == user.profile or user.profile.role_id == 1 %}
+            <div class="idea-list-item">
+              <!-- Grid row -->
+              <div class="row">
+                <!-- Grid column -->
+                <div class="col-lg-5 col-xl-4">
+
+                  <!-- Featured image -->
+                  <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                    <img style="height:400px; width: 500px;" class="img-fluid" src="{{idea.image.url}}" alt="Sample image">
+                    <a>
+                      <div class="mask rgba-white-slight"></div>
+                    </a>
+                  </div>
+
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-lg-7 col-xl-8">
+
+                  <!-- Post title -->
+                  <h3 class="mb-3">{{ idea.title }}</h3>
+                  <!-- Excerpt -->
+                  <p class="dark-grey-text text-justify"><strong>Problem Statement-></strong> {{ idea.problem_statement }}</p>
+                  <!-- Post data -->
+                  <p>by <a class="font-weight-bold">{{ idea.user.user|capfirst }}</a>, {{ idea.date_posted|date:"F d, Y" }}</p>
+                    <p> <a class="font-weight-bold"></a> {{ idea.comment_count}} Comments | {{ idea.view_count }} Views | {{ idea.likes.count }} Likes | <a class="font-weight-bold" href="{% url 'strathideasapp:idea_category' idea.category.pk %}">{{ idea.category }}</a></p>
+
+                  <!-- Read more button -->
+                  <a class="btn btn-primary btn-md" href="{% url 'strathideasapp:idea_detail' idea.idea %}">Read more</a>
+                  <hr class="my-5">
+
+                </div>
+                <!-- Grid column -->
+
+              </div>
+            </div>
+
+            {% endif %}
+            {% empty %}
+                <h2>There are no Ideas in {{category.industry_category_name}} at the moment</h2>
+        {% endfor %}
+    <!-- End of code for idea list item -->
+
+    <hr class="my-5">
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-primary mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+
+
+    </section>
+    <!-- Section: Blog v.3 -->
+  <!-- end of ideas list view -->
+
+{% endblock %}
