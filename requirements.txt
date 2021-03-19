@@ -12,7 +12,7 @@ Django==2.2.5
 django-bootstrap==0.2.4
 django-crispy-forms==1.7.2
 django-heroku==0.3.1
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 entrypoints==0.3
 Flask==1.1.1
 geos==0.2.2
